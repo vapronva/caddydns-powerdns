@@ -15,7 +15,7 @@
 package powerdns
 
 import (
-	"github.com/libdns/powerdns"
+	powerdns "github.com/vapronva/libdns-powerdns"
 
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/caddyconfig/caddyfile"
@@ -39,9 +39,9 @@ func (Provider) CaddyModule() caddy.ModuleInfo {
 // Provision implements the Provisioner interface to initialize the PowerDNS client
 func (p *Provider) Provision(ctx caddy.Context) error {
 	repl := caddy.NewReplacer()
-	p.Provider.ServerURL = repl.ReplaceAll(p.Provider.ServerURL, "")
-	p.Provider.APIToken = repl.ReplaceAll(p.Provider.APIToken, "")
-	p.Provider.ServerID = repl.ReplaceAll(p.Provider.ServerID, "")
+	p.ServerURL = repl.ReplaceAll(p.ServerURL, "")
+	p.APIToken = repl.ReplaceAll(p.APIToken, "")
+	p.ServerID = repl.ReplaceAll(p.ServerID, "")
 
 	return nil
 }
@@ -56,13 +56,13 @@ func (p *Provider) Provision(ctx caddy.Context) error {
 func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	for d.Next() {
 		if d.NextArg() {
-			p.Provider.ServerURL = d.Val()
+			p.ServerURL = d.Val()
 		}
 		if d.NextArg() {
-			p.Provider.APIToken = d.Val()
+			p.APIToken = d.Val()
 		}
 		if d.NextArg() {
-			p.Provider.ServerID = d.Val()
+			p.ServerID = d.Val()
 		}
 		if d.NextArg() {
 			return d.ArgErr()
@@ -70,31 +70,31 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 		for nesting := d.Nesting(); d.NextBlock(nesting); {
 			switch d.Val() {
 			case "server_url":
-				if p.Provider.ServerURL != "" {
+				if p.ServerURL != "" {
 					return d.Err("Server URL already set")
 				}
 				if d.NextArg() {
-					p.Provider.ServerURL = d.Val()
+					p.ServerURL = d.Val()
 				}
 				if d.NextArg() {
 					return d.ArgErr()
 				}
 			case "api_token":
-				if p.Provider.APIToken != "" {
+				if p.APIToken != "" {
 					return d.Err("API token already set")
 				}
 				if d.NextArg() {
-					p.Provider.APIToken = d.Val()
+					p.APIToken = d.Val()
 				}
 				if d.NextArg() {
 					return d.ArgErr()
 				}
 			case "server_id":
-				if p.Provider.ServerID != "" {
+				if p.ServerID != "" {
 					return d.Err("Server ID already set")
 				}
 				if d.NextArg() {
-					p.Provider.ServerID = d.Val()
+					p.ServerID = d.Val()
 				}
 				if d.NextArg() {
 					return d.ArgErr()
@@ -104,10 +104,10 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 			}
 		}
 	}
-	if p.Provider.ServerURL == "" {
+	if p.ServerURL == "" {
 		return d.Err("missing server URL")
 	}
-	if p.Provider.APIToken == "" {
+	if p.APIToken == "" {
 		return d.Err("missing API token")
 	}
 	return nil
