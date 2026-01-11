@@ -73,9 +73,10 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 				if p.ServerURL != "" {
 					return d.Err("Server URL already set")
 				}
-				if d.NextArg() {
-					p.ServerURL = d.Val()
+				if !d.NextArg() {
+					return d.ArgErr()
 				}
+				p.ServerURL = d.Val()
 				if d.NextArg() {
 					return d.ArgErr()
 				}
@@ -83,9 +84,10 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 				if p.APIToken != "" {
 					return d.Err("API token already set")
 				}
-				if d.NextArg() {
-					p.APIToken = d.Val()
+				if !d.NextArg() {
+					return d.ArgErr()
 				}
+				p.APIToken = d.Val()
 				if d.NextArg() {
 					return d.ArgErr()
 				}
@@ -93,9 +95,10 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 				if p.ServerID != "" {
 					return d.Err("Server ID already set")
 				}
-				if d.NextArg() {
-					p.ServerID = d.Val()
+				if !d.NextArg() {
+					return d.ArgErr()
 				}
+				p.ServerID = d.Val()
 				if d.NextArg() {
 					return d.ArgErr()
 				}
