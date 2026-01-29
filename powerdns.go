@@ -15,6 +15,8 @@
 package powerdns
 
 import (
+	"fmt"
+
 	powerdns "github.com/vapronva/libdns-powerdns"
 
 	"github.com/caddyserver/caddy/v2"
@@ -42,7 +44,12 @@ func (p *Provider) Provision(ctx caddy.Context) error {
 	p.ServerURL = repl.ReplaceAll(p.ServerURL, "")
 	p.APIToken = repl.ReplaceAll(p.APIToken, "")
 	p.ServerID = repl.ReplaceAll(p.ServerID, "")
-
+	if p.ServerURL == "" {
+		return fmt.Errorf("server URL is required")
+	}
+	if p.APIToken == "" {
+		return fmt.Errorf("API token is required")
+	}
 	return nil
 }
 
