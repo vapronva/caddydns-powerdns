@@ -61,7 +61,7 @@ func (p *Provider) Provision(ctx caddy.Context) error {
 //	    server_id <string>
 //	}
 func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
-	for d.Next() {
+	if d.Next() {
 		if d.NextArg() {
 			p.ServerURL = d.Val()
 		}
