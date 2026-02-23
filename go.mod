@@ -4,7 +4,7 @@ go 1.26
 
 require (
 	github.com/caddyserver/caddy/v2 v2.11.1
-	github.com/vapronva/libdns-powerdns v0.0.0-20260223182618-1d96ac79eb57
+	github.com/vapronva/libdns-powerdns v0.0.0-20260223202354-02c5c85ce7e3
 )
 
 require (

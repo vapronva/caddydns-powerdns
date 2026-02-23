@@ -58,8 +58,8 @@ github.com/rogpeppe/go-internal v1.10.0 h1:TMyTOH3F/DB16zRVcYyreMH6GnZZrwQVAoYjR
 github.com/rogpeppe/go-internal v1.10.0/go.mod h1:UQnix2H7Ngw/k4C5ijL5+65zddjncjaFoBhdsK/akog=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
-github.com/vapronva/libdns-powerdns v0.0.0-20260223182618-1d96ac79eb57 h1:XXc0ZUZNiCl1jaSbn650MnuZfzlrMlzxp6DT2H6RzoE=
-github.com/vapronva/libdns-powerdns v0.0.0-20260223182618-1d96ac79eb57/go.mod h1:DPCOAKFn9V2GNOBOMywYPAFV5NPgOIpXL1X4w4/Bck4=
+github.com/vapronva/libdns-powerdns v0.0.0-20260223202354-02c5c85ce7e3 h1:cB10FQCf5/R2rlW1lyNfTzDs0tqs3rYp0DwD+kTU7r4=
+github.com/vapronva/libdns-powerdns v0.0.0-20260223202354-02c5c85ce7e3/go.mod h1:DPCOAKFn9V2GNOBOMywYPAFV5NPgOIpXL1X4w4/Bck4=
 github.com/zeebo/assert v1.3.1 h1:vukIABvugfNMZMQO1ABsyQDJDTVQbn+LWSMy1ol1h6A=
 github.com/zeebo/assert v1.3.1/go.mod h1:Pq9JiuJQpG8JLJdtkwrJESF0Foym2/D9XMU5ciN/wJ0=
 github.com/zeebo/blake3 v0.2.4 h1:KYQPkhpRtcqh0ssGYcKLG1JYvddkEA8QwCM/yBqhaZI=
