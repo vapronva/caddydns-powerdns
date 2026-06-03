@@ -77,6 +77,12 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 			return d.ArgErr()
 		}
 	}
+	if p.ServerURL == "" {
+		return d.Err("missing server URL")
+	}
+	if p.APIToken == "" {
+		return d.Err("missing API token")
+	}
 	return nil
 }
 

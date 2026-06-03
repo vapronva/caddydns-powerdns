@@ -1,6 +1,7 @@
 package powerdns_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/caddyserver/caddy/v2"
@@ -94,6 +95,29 @@ func TestUnmarshalCaddyfileErrors(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			if _, err := unmarshal(t, input); err == nil {
 				t.Fatalf("expected error for %q, got nil", name)
+			}
+		})
+	}
+}
+
+func TestUnmarshalCaddyfileMissingRequiredFieldReportsFileLine(t *testing.T) {
+	cases := map[string]string{
+		"missing api_token": `powerdns {
+			server_url http://pdns:8081
+		}`,
+		"missing server_url": `powerdns {
+			api_token secret
+		}`,
+		"missing both": `powerdns`,
+	}
+	for name, input := range cases {
+		t.Run(name, func(t *testing.T) {
+			_, err := unmarshal(t, input)
+			if err == nil {
+				t.Fatalf("expected error for %q, got nil", name)
+			}
+			if !strings.Contains(err.Error(), "Testfile:") {
+				t.Fatalf("expected Caddyfile file/line context in error, got: %v", err)
 			}
 		})
 	}
