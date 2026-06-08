@@ -4,7 +4,7 @@ go 1.26
 
 require (
 	github.com/caddyserver/caddy/v2 v2.11.4
-	github.com/vapronva/libdns-powerdns v0.0.0-20260603032343-b7724e4880d5
+	github.com/vapronva/libdns-powerdns v0.0.0-20260608093839-e82f2b8c4667
 )
 
 require (
@@ -24,7 +24,7 @@ require (
 	github.com/prometheus/common v0.68.1 // indirect
 	github.com/prometheus/procfs v0.20.1 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
-	github.com/quic-go/quic-go v0.59.1 // indirect
+	github.com/quic-go/quic-go v0.60.0 // indirect
 	github.com/zeebo/assert v1.3.1 // indirect
 	github.com/zeebo/blake3 v0.2.4 // indirect
 	go.uber.org/mock v0.6.0 // indirect
