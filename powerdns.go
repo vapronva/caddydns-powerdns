@@ -3,6 +3,8 @@ package powerdns
 
 import (
 	"errors"
+	"fmt"
+	"net/url"
 
 	powerdns "github.com/vapronva/libdns-powerdns"
 
@@ -35,13 +37,22 @@ func (p *Provider) Provision(_ caddy.Context) error {
 	if p.APIToken == "" {
 		return errors.New("API token is required")
 	}
+	return validateServerURL(p.ServerURL)
+}
+
+func validateServerURL(serverURL string) error {
+	u, err := url.Parse(serverURL)
+	if err != nil {
+		return fmt.Errorf("invalid server URL: %w", err)
+	}
+	if (u.Scheme != "http" && u.Scheme != "https") || u.Host == "" {
+		return fmt.Errorf("server URL %q must be an absolute http:// or https:// URL", serverURL)
+	}
 	return nil
 }
 
 func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
-	if !d.Next() {
-		return nil
-	}
+	d.Next()
 	if d.NextArg() {
 		p.ServerURL = d.Val()
 	}

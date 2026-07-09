@@ -90,6 +90,7 @@ func TestUnmarshalCaddyfileErrors(t *testing.T) {
 			server_id a b
 		}`,
 		"too many positional args": `powerdns http://a secret id extra`,
+		"empty input":              ``,
 	}
 	for name, input := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -137,6 +138,36 @@ func TestProvisionExpandsPlaceholdersAndValidates(t *testing.T) {
 	}
 	if p.ServerID != "" {
 		t.Fatalf("server_id should stay empty, got %q", p.ServerID)
+	}
+}
+
+func TestProvisionValidatesServerURL(t *testing.T) {
+	cases := map[string]struct {
+		serverURL string
+		wantErr   bool
+	}{
+		"http URL":            {"http://pdns:8081", false},
+		"https URL with path": {"https://pdns.example.com:8081/api", false},
+		"host:port only":      {"my.dns.tld:8081", true},
+		"bare hostname":       {"pdns.example.com", true},
+		"non-http scheme":     {"ftp://pdns:8081", true},
+		"scheme without host": {"http://", true},
+		"unparsable URL":      {"http://pdns:8081/%zz", true},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			p := &caddydns.Provider{Provider: &libdnspowerdns.Provider{
+				ServerURL: tc.serverURL,
+				APIToken:  "secret",
+			}}
+			err := p.Provision(caddy.Context{})
+			if tc.wantErr && err == nil {
+				t.Fatalf("expected error for server URL %q, got nil", tc.serverURL)
+			}
+			if !tc.wantErr && err != nil {
+				t.Fatalf("unexpected error for server URL %q: %v", tc.serverURL, err)
+			}
+		})
 	}
 }
 

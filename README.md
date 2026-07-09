@@ -49,3 +49,5 @@ tls {
 ```
 
 You can replace `{env.POWERDNS_SERVER_URL}` and `{env.POWERDNS_API_TOKEN}` with the actual server URL and API token if you prefer to put it directly in your config instead of an environment variable.
+
+The server URL must be an absolute URL to the PowerDNS API including the scheme.
