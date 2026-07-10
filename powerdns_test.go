@@ -146,13 +146,16 @@ func TestProvisionValidatesServerURL(t *testing.T) {
 		serverURL string
 		wantErr   bool
 	}{
-		"http URL":            {"http://pdns:8081", false},
-		"https URL with path": {"https://pdns.example.com:8081/api", false},
-		"host:port only":      {"my.dns.tld:8081", true},
-		"bare hostname":       {"pdns.example.com", true},
-		"non-http scheme":     {"ftp://pdns:8081", true},
-		"scheme without host": {"http://", true},
-		"unparsable URL":      {"http://pdns:8081/%zz", true},
+		"http URL":                 {"http://pdns:8081", false},
+		"https URL with path":      {"https://pdns.example.com:8081/api", false},
+		"IPv6 host":                {"http://[::1]:8081", false},
+		"host:port only":           {"my.dns.tld:8081", true},
+		"bare hostname":            {"pdns.example.com", true},
+		"non-http scheme":          {"ftp://pdns:8081", true},
+		"scheme without host":      {"http://", true},
+		"empty hostname with port": {"http://:8081", true},
+		"userinfo without host":    {"http://user@:8081", true},
+		"unparsable URL":           {"http://pdns:8081/%zz", true},
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {

@@ -45,8 +45,11 @@ func validateServerURL(serverURL string) error {
 	if err != nil {
 		return fmt.Errorf("invalid server URL: %w", err)
 	}
-	if (u.Scheme != "http" && u.Scheme != "https") || u.Host == "" {
+	if u.Scheme != "http" && u.Scheme != "https" {
 		return fmt.Errorf("server URL %q must be an absolute http:// or https:// URL", serverURL)
+	}
+	if u.Hostname() == "" {
+		return fmt.Errorf("server URL %q has an empty hostname (unset placeholder?)", serverURL)
 	}
 	return nil
 }
