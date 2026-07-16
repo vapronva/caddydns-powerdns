@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
+	"strings"
 
 	powerdns "github.com/vapronva/libdns-powerdns"
 
@@ -27,8 +28,13 @@ func (Provider) CaddyModule() caddy.ModuleInfo {
 
 func (p *Provider) Provision(_ caddy.Context) error {
 	repl := caddy.NewReplacer()
-	p.ServerURL = repl.ReplaceAll(p.ServerURL, "")
-	p.APIToken = repl.ReplaceAll(p.APIToken, "")
+	var err error
+	if p.ServerURL, err = repl.ReplaceOrErr(p.ServerURL, true, true); err != nil {
+		return fmt.Errorf("server URL: %w", err)
+	}
+	if p.APIToken, err = repl.ReplaceOrErr(p.APIToken, true, true); err != nil {
+		return fmt.Errorf("API token: %w", err)
+	}
 	p.ServerID = repl.ReplaceAll(p.ServerID, "")
 	p.Debug = repl.ReplaceAll(p.Debug, "")
 	if p.ServerURL == "" {
@@ -50,6 +56,12 @@ func validateServerURL(serverURL string) error {
 	}
 	if u.Hostname() == "" {
 		return fmt.Errorf("server URL %q has an empty hostname (unset placeholder?)", serverURL)
+	}
+	if i := strings.IndexAny(serverURL, "?#"); i >= 0 {
+		return fmt.Errorf("server URL %q must not contain a query or fragment (%q)", serverURL, serverURL[i:])
+	}
+	if strings.Contains(u.Path, "//") {
+		return fmt.Errorf("server URL %q must not contain empty path segments", serverURL)
 	}
 	return nil
 }

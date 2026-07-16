@@ -1,6 +1,7 @@
 package powerdns_test
 
 import (
+	"net/url"
 	"strings"
 	"testing"
 
@@ -156,6 +157,16 @@ func TestProvisionValidatesServerURL(t *testing.T) {
 		"empty hostname with port": {"http://:8081", true},
 		"userinfo without host":    {"http://user@:8081", true},
 		"unparsable URL":           {"http://pdns:8081/%zz", true},
+		"fragment after port":      {"http://pdns:8081#anchor", true},
+		"empty fragment":           {"http://pdns:8081#", true},
+		"fragment after path":      {"http://pdns:8081/api#anchor", true},
+		"query":                    {"http://pdns:8081?server=1", true},
+		"empty query":              {"http://pdns:8081?", true},
+		"empty path segment":       {"http://pdns//", true},
+		"empty inner path segment": {"http://pdns:8081/api/v1//", true},
+		"encoded empty segment":    {"http://pdns:8081/%2F%2F", true},
+		"encoded delimiters":       {"http://pdns:8081/prefix%3Fpart%23part", false},
+		"unknown placeholder":      {"https://pdns/{typo.VAR}", true},
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -167,10 +178,27 @@ func TestProvisionValidatesServerURL(t *testing.T) {
 			if tc.wantErr && err == nil {
 				t.Fatalf("expected error for server URL %q, got nil", tc.serverURL)
 			}
-			if !tc.wantErr && err != nil {
+			if tc.wantErr {
+				return
+			}
+			if err != nil {
 				t.Fatalf("unexpected error for server URL %q: %v", tc.serverURL, err)
 			}
+			if _, parseErr := url.ParseRequestURI(p.ServerURL); parseErr != nil {
+				t.Fatalf("accepted server URL %q would panic go-powerdns: %v", p.ServerURL, parseErr)
+			}
 		})
+	}
+}
+
+func TestProvisionRejectsEmptyPlaceholder(t *testing.T) {
+	t.Setenv("POWERDNS_TEST_EMPTY", "")
+	p := &caddydns.Provider{Provider: &libdnspowerdns.Provider{
+		ServerURL: "http://{env.POWERDNS_TEST_EMPTY}:8081",
+		APIToken:  "secret",
+	}}
+	if err := p.Provision(caddy.Context{}); err == nil {
+		t.Fatal("expected error for empty placeholder in server URL")
 	}
 }
 
