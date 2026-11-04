@@ -1,4 +1,6 @@
 // Copyright 2022 Nicky Gerritsen
+
+// Package powerdns registers a PowerDNS provider module for Caddy.
 package powerdns
 
 import (
