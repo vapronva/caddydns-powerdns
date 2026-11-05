@@ -3,7 +3,7 @@ module github.com/vapronva/caddydns-powerdns
 go 1.26.0
 
 require (
-	github.com/caddyserver/caddy/v2 v2.11.8
+	github.com/caddyserver/caddy/v2 v2.11.9
 	github.com/vapronva/libdns-powerdns v0.0.0-20261101171344-6184beff4ee8
 )
 
