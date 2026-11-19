@@ -22,7 +22,7 @@ require (
 	github.com/pandatix/go-abnf v0.5.5 // indirect
 	github.com/prometheus/client_golang v1.25.0 // indirect
 	github.com/prometheus/client_model v0.6.3 // indirect
-	github.com/prometheus/common v0.73.1 // indirect
+	github.com/prometheus/common v0.74.0 // indirect
 	github.com/prometheus/procfs v0.23.0 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.64.1 // indirect
@@ -33,7 +33,7 @@ require (
 	go.uber.org/zap v1.28.0 // indirect
 	go.uber.org/zap/exp v0.3.0 // indirect
 	golang.org/x/crypto v0.59.0 // indirect
-	golang.org/x/net v0.62.0 // indirect
+	golang.org/x/net v0.63.0 // indirect
 	golang.org/x/sys v0.50.0 // indirect
 	golang.org/x/term v0.48.0 // indirect
 	golang.org/x/text v0.44.0 // indirect
